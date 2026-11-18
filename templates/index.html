@@ -1,60 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
-
-    <title>Movie Recommender</title>
-
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            max-width: 900px;
-            margin: 40px auto;
-            padding: 0 20px;
-            background-color: #f4f4f4;
-        }
-
-        h1 {
-            margin-bottom: 5px;
-        }
-
-        .filters {
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            margin-bottom: 30px;
-        }
-
-        .filters input {
-            margin-right: 15px;
-            padding: 8px;
-        }
-
-        .filters button {
-            padding: 8px 16px;
-            cursor: pointer;
-        }
-
-        .movie {
-            background: white;
-            padding: 20px;
-            margin-bottom: 15px;
-            border-radius: 8px;
-        }
-
-        .movie h2 {
-            margin-top: 0;
-        }
-
-        .metadata {
-            color: #555;
-        }
-    </style>
+    <title>
+        Movie Recommender
+    </title>
 </head>
 
 <body>
@@ -62,14 +14,16 @@
     <h1>Movie Recommender</h1>
 
     <p>
-        Tell us what you're looking for and we'll help
-        narrow down your options.
+        Enter any preferences you already know.
+        Everything is optional.
     </p>
 
-    <div class="filters">
+    <form
+        method="GET"
+        action="/compare"
+    >
 
-        <form method="GET">
-
+        <p>
             <label for="max_runtime">
                 Maximum Runtime:
             </label>
@@ -78,67 +32,30 @@
                 type="number"
                 id="max_runtime"
                 name="max_runtime"
-                value="{{ max_runtime }}"
                 placeholder="Minutes"
+                min="1"
             >
+        </p>
 
+        <p>
             <label for="genre">
-                Genre:
+                Preferred Genre:
             </label>
 
             <input
                 type="text"
                 id="genre"
                 name="genre"
-                value="{{ genre }}"
                 placeholder="Sci-Fi"
             >
-
-            <button type="submit">
-                Find Movies
-            </button>
-
-        </form>
-
-    </div>
-
-
-    <h2>
-        {{ movies|length }} Movies Found
-    </h2>
-
-
-    {% for movie in movies %}
-
-        <div class="movie">
-
-            <h2>
-                {{ movie.title }}
-            </h2>
-
-            <p class="metadata">
-                {{ movie.year }}
-                |
-                {{ movie.runtime }} minutes
-                |
-                {{ movie.genres }}
-                |
-                Rating: {{ movie.vote_average }}
-            </p>
-
-            <p>
-                {{ movie.overview }}
-            </p>
-
-        </div>
-
-    {% else %}
-
-        <p>
-            No movies matched those filters.
         </p>
 
-    {% endfor %}
+        <button type="submit">
+            Start Finding a Movie
+        </button>
+
+    </form>
 
 </body>
+
 </html>

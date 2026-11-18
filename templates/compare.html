@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <title>
+        Choose a Movie
+    </title>
+</head>
+
+<body>
+
+    <h1>
+        Which would you rather watch?
+    </h1>
+
+
+    {% if error %}
+
+        <p>
+            {{ error }}
+        </p>
+
+        <a href="/">
+            Change Filters
+        </a>
+
+    {% else %}
+
+        <p>
+            Comparisons completed:
+            {{ comparison_count }}
+        </p>
+
+
+        <div>
+
+            <h2>
+                {{ movie_a.title }}
+            </h2>
+
+            <p>
+                {{ movie_a.year }}
+                |
+                {{ movie_a.runtime }} minutes
+                |
+                {{ movie_a.genres | join(", ") }}
+            </p>
+
+            <p>
+                Rating:
+                {{ movie_a.vote_average }}
+            </p>
+
+            <p>
+                {{ movie_a.overview }}
+            </p>
+
+            <form
+                method="POST"
+                action="/choose"
+            >
+
+                <input
+                    type="hidden"
+                    name="winner_id"
+                    value="{{ movie_a.id }}"
+                >
+
+                <input
+                    type="hidden"
+                    name="loser_id"
+                    value="{{ movie_b.id }}"
+                >
+
+                <button type="submit">
+                    Choose {{ movie_a.title }}
+                </button>
+
+            </form>
+
+        </div>
+
+
+        <hr>
+
+
+        <div>
+
+            <h2>
+                {{ movie_b.title }}
+            </h2>
+
+            <p>
+                {{ movie_b.year }}
+                |
+                {{ movie_b.runtime }} minutes
+                |
+                {{ movie_b.genres | join(", ") }}
+            </p>
+
+            <p>
+                Rating:
+                {{ movie_b.vote_average }}
+            </p>
+
+            <p>
+                {{ movie_b.overview }}
+            </p>
+
+            <form
+                method="POST"
+                action="/choose"
+            >
+
+                <input
+                    type="hidden"
+                    name="winner_id"
+                    value="{{ movie_b.id }}"
+                >
+
+                <input
+                    type="hidden"
+                    name="loser_id"
+                    value="{{ movie_a.id }}"
+                >
+
+                <button type="submit">
+                    Choose {{ movie_b.title }}
+                </button>
+
+            </form>
+
+        </div>
+
+
+        {% if comparison_count >= 3 %}
+
+            <hr>
+
+            <p>
+                Think we've learned enough?
+            </p>
+
+            <a href="/recommendation">
+                Get My Recommendation
+            </a>
+
+        {% endif %}
+
+
+        <p>
+            <a href="/restart">
+                Start Over
+            </a>
+        </p>
+
+    {% endif %}
+
+</body>
+
+</html>

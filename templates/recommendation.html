@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <title>
+        Your Recommendation
+    </title>
+</head>
+
+<body>
+
+    <h1>
+        We Recommend:
+    </h1>
+
+
+    <h2>
+        {{ movie.title }}
+    </h2>
+
+    <p>
+        {{ movie.year }}
+        |
+        {{ movie.runtime }} minutes
+        |
+        {{ movie.genres | join(", ") }}
+    </p>
+
+    <p>
+        Rating:
+        {{ movie.vote_average }}
+    </p>
+
+    <p>
+        {{ movie.overview }}
+    </p>
+
+
+    <p>
+        Recommendation based on
+        {{ comparisons }}
+        comparisons.
+    </p>
+
+
+    <p>
+        <a href="/compare">
+            Keep Comparing
+        </a>
+    </p>
+
+    <p>
+        <a href="/restart">
+            Start Over
+        </a>
+    </p>
+
+</body>
+
+</html>
