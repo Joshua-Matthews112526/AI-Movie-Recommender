@@ -11,7 +11,7 @@ from flask import (
 
 from recommender import (
     filter_movies,
-    load_embeddings,
+    load_features,
     load_movies
 )
 
@@ -35,8 +35,8 @@ app.secret_key = os.environ.get(
 # Load movie data once when Flask starts.
 movies = load_movies()
 
-embeddings, embedding_index = (
-    load_embeddings()
+features, feature_index = (
+    load_features()
 )
 
 
@@ -120,16 +120,16 @@ def compare():
 
     model = train_preference_model(
         history,
-        embeddings,
-        embedding_index
+        features,
+        feature_index
     )
 
     pair = select_pair(
         candidates["id"].tolist(),
         history,
         model,
-        embeddings,
-        embedding_index
+        features,
+        feature_index
     )
 
     if pair is None:
@@ -226,8 +226,8 @@ def recommendation():
 
     model = train_preference_model(
         history,
-        embeddings,
-        embedding_index
+        features,
+        feature_index
     )
 
     if model is None:
@@ -238,8 +238,8 @@ def recommendation():
     scores = score_movies(
         candidates["id"].tolist(),
         model,
-        embeddings,
-        embedding_index
+        features,
+        feature_index
     )
 
     if not scores:
@@ -247,15 +247,27 @@ def recommendation():
             url_for("home")
         )
 
-    best_id = scores[0]["id"]
+    top_results = []
 
-    best_movie = candidates[
-        candidates["id"] == best_id
-    ].iloc[0].to_dict()
+    for result in scores[:5]:
+
+        movie_match = candidates[
+            candidates["id"] == result["id"]
+        ]
+
+        if movie_match.empty:
+            continue
+
+        movie = movie_match.iloc[0].to_dict()
+
+        movie["preference_score"] = result["score"]
+
+        top_results.append(movie)
+
 
     return render_template(
         "recommendation.html",
-        movie=best_movie,
+        movies=top_results,
         comparisons=len(history)
     )
 

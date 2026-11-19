@@ -5,44 +5,60 @@
     <meta charset="UTF-8">
 
     <title>
-        Your Recommendation
+        Your Recommendations
     </title>
 </head>
 
 <body>
 
     <h1>
-        We Recommend:
+        Your Top Recommendations
     </h1>
 
-
-    <h2>
-        {{ movie.title }}
-    </h2>
-
     <p>
-        {{ movie.year }}
-        |
-        {{ movie.runtime }} minutes
-        |
-        {{ movie.genres | join(", ") }}
-    </p>
-
-    <p>
-        Rating:
-        {{ movie.vote_average }}
-    </p>
-
-    <p>
-        {{ movie.overview }}
+        Based on {{ comparisons }}
+        pairwise comparisons.
     </p>
 
 
-    <p>
-        Recommendation based on
-        {{ comparisons }}
-        comparisons.
-    </p>
+    {% for movie in movies %}
+
+        <div>
+
+            <h2>
+                #{{ loop.index }}
+                {{ movie.title }}
+            </h2>
+
+            <p>
+                {{ movie.year }}
+                |
+                {{ movie.runtime }} minutes
+                |
+                {{ movie.genres | join(", ") }}
+            </p>
+
+            <p>
+                Rating:
+                {{ movie.vote_average }}
+            </p>
+
+            <p>
+                Preference Score:
+                {{ "%.3f"|format(
+                    movie.preference_score
+                ) }}
+            </p>
+
+            <p>
+                {{ movie.overview }}
+            </p>
+
+        </div>
+
+        <hr>
+
+    {% endfor %}
 
 
     <p>

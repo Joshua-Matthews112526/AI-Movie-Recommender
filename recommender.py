@@ -24,6 +24,18 @@ INDEX_PATH = (
     / "movie_embedding_index.csv"
 )
 
+FEATURE_PATH = (
+    Path(__file__).parent
+    / "data"
+    / "movie_features.npy"
+)
+
+FEATURE_INDEX_PATH = (
+    Path(__file__).parent
+    / "data"
+    / "movie_feature_index.csv"
+)
+
 
 def parse_names(value):
     """
@@ -219,3 +231,18 @@ def find_similar_movies(
             break
 
     return results
+
+def load_features():
+    """
+    Load the combined ML feature matrix.
+    """
+
+    features = np.load(
+        FEATURE_PATH
+    )
+
+    feature_index = pd.read_csv(
+        FEATURE_INDEX_PATH
+    )
+
+    return features, feature_index
